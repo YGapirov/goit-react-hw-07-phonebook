@@ -11,10 +11,8 @@ export const selectFilter = state => state.filter;
 export const selectVisibleContacts = createSelector(
   [selectContacts, selectFilter],
   (contacts, filter) => {
-    const filterString = String(filter).toLowerCase(); // Перетворення у рядок і нижній регістр
-
     return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filterString)
+      contact.name.toLowerCase().includes(filter.toLowerCase())
     );
   }
 );
