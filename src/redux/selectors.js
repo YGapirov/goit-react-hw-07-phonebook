@@ -17,8 +17,3 @@ export const selectVisibleContacts = createSelector(
     });
   }
 );
-
-// const visibleContacts = contacts.filter(contact => {
-//   const hasName = contact.name.toLowerCase().includes(filter.toLowerCase());
-//   return hasName;
-// });

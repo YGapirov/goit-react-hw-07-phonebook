@@ -2,10 +2,11 @@ import { Label, Input } from './Filter.styled';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { filterPhone } from '../../redux/filterSlice';
+import { selectFilter } from '../../redux/selectors';
 
 export const Filter = () => {
   const dispatch = useDispatch();
-  const filter = useSelector(state => state.filter.filter); // Отримання значення filter зі стану Redux
+  const filter = useSelector(selectFilter); // Отримання значення filter зі стану Redux
 
   const updateFilter = value => {
     dispatch(filterPhone(value));

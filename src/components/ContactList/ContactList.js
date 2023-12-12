@@ -1,28 +1,23 @@
 import { ContactCard } from '../ContactCard/ContactCard';
 import { List } from './ContactList.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { deletePhone } from '../../redux/contactSlice';
 
 import { selectVisibleContacts } from '../../redux/selectors';
+import { deleteContact } from '../../redux/operations';
 
 export const ContactList = () => {
   const contacts = useSelector(selectVisibleContacts);
   const dispatch = useDispatch();
 
-  // const contacts = useSelector(state => state.contacts.contacts); //отримує значення контакт із store
-  // const filter = useSelector(state => state.filter.filter);
-
-  const handleDelete = contactId => dispatch(deletePhone(contactId));
+  const handleDelete = id => dispatch(deleteContact(id));
 
   return (
-    // visibleContacts.length > 0 && (
-
     <List>
       {contacts.map(contact => (
         <ContactCard
           key={contact.id}
           contact={contact}
-          onDelete={handleDelete}
+          onDelete={() => handleDelete(contact.id)} // Передаємо проп onDelete з відповідним ID
         />
       ))}
     </List>

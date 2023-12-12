@@ -28,7 +28,7 @@ export const App = () => {
       <SubTitle>Contacts </SubTitle>
       {contacts.length > 0 ? <Filter /> : <p>You don't have any contacts</p>}
 
-      <ContactList />
+      {contacts.length > 0 && <ContactList />}
       {error && <p>{error}</p>}
       <GlobalStyle />
     </Container>

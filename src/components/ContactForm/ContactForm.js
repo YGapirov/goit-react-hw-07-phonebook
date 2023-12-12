@@ -9,36 +9,40 @@ import {
   Label,
 } from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPhone } from '../../redux/contactSlice';
+// import { addPhone } from '../../redux/contactSlice';
+
+import { addContact } from '../../redux/operations';
+import { selectContacts } from '../../redux/selectors';
+
+const formSchema = Yup.object().shape({
+  name: Yup.string()
+    .matches(/^[\p{L} ']+$/u, 'Only letters are allowed')
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+  number: Yup.string()
+    .matches(
+      /^(\d{2,}-\d{2,}-\d{2,}|\d{2,}-\d{2,}|\d{5,})$/,
+      'It must be min 5 numbers (1234567 or 123-45-67)'
+    )
+    .required('Required'),
+});
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.contacts); //отримує значення контакт із store
+  const contacts = useSelector(selectContacts);
 
-  const formSchema = Yup.object().shape({
-    name: Yup.string()
-      .matches(/^[\p{L}]+$/u, 'Only letters are allowed')
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-    number: Yup.string()
-      .matches(
-        /^(\d{2,}-\d{2,}-\d{2,}|\d{2,}-\d{2,}|\d{5,})$/,
-        'It must be min 5 numbers (1234567 or 123-45-67)'
-      )
-      .required('Required'),
-  });
-
-  const addContact = value => {
+  const handleSubmitContact = values => {
+    const { name, number } = values;
     if (
       contacts.some(
-        contact => contact.name.toLowerCase() === value.name.toLowerCase()
+        contact => contact.name.toLowerCase() === name.toLowerCase()
       )
     ) {
-      alert(`${value.name} is already on contacts.`);
+      alert(`${name} is already on contacts.`);
       return;
     }
-    dispatch(addPhone(value)); //якщо контакта такого нема, діспатчить  новий контакт в список
+    dispatch(addContact({ name, number })); //якщо контакта такого нема, діспатчить  новий контакт в список
   };
 
   return (
@@ -50,7 +54,7 @@ export const ContactForm = () => {
         }}
         validationSchema={formSchema}
         onSubmit={(values, actions) => {
-          addContact(values);
+          handleSubmitContact(values);
           actions.resetForm();
         }}
       >
