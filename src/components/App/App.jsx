@@ -22,12 +22,11 @@ export const App = () => {
 
   return (
     <Container>
-      {isLoading && <p>Loading contacts...</p>}
       <Title>Phonebook</Title>
       <ContactForm />
       <SubTitle>Contacts </SubTitle>
       {contacts.length > 0 ? <Filter /> : <p>You don't have any contacts</p>}
-
+      {isLoading && <p>Loading contacts...</p>}
       {contacts.length > 0 && <ContactList />}
       {error && <p>{error}</p>}
       <GlobalStyle />
